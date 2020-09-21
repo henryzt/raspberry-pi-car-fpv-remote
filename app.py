@@ -5,6 +5,7 @@ import picamera
 import cv2
 import socket
 import io
+import threading
 
 import motor 
 
@@ -31,19 +32,27 @@ def video_feed():
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+def move_motor(direction, speed):
+    print("Motor Signaled: " + direction)
+    if direction == "forward":
+        motor.t_up(speed, 3)
+    if direction == "backward":
+        motor.t_down(speed, 3)
+    if direction == "left":
+        motor.t_left(speed * 1.5, 1)
+    if direction == "right":
+        motor.t_right(speed * 1.5, 1)
+    motor.t_stop(1)
+
 @app.route('/motor/<direction>')
 @app.route('/motor/<direction>/<speed>')
 def move(direction, speed=20):
-    print("Motor Signaled")
-    if direction == "forward":
-        motor.t_up(speed,3)
-    if direction == "backward":
-        motor.t_down(speed,3)
-    motor.t_stop(1)
+    thread = threading.Thread(target=move_motor, args=(direction, speed))
+    thread.start()
     return "done"
 
 
 if __name__ == '__main__':
         motor.setup_gpio()
-        app.run(host='0.0.0.0', threaded=True)
+        app.run(host='0.0.0.0', debug=False, threaded=True)
                

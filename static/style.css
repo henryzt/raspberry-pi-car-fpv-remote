@@ -1,0 +1,29 @@
+.header{
+  text-align: center;
+  background-color: #0077ff;
+  color: white;
+  padding: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 300px;
+  margin: 30px auto;
+}
+
+.grid div {
+  padding: 10px;
+  text-align: center;
+  line-height: 60px;
+}
+
+.content {
+  max-width: 800px;
+  margin: auto;
+}
+
+.content img{
+  width: 100%;
+}

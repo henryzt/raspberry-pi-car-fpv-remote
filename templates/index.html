@@ -3,13 +3,28 @@
     <title>Pi Car Remote</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
  </head> 
  <body>
   <div id="app">
-    <h1> Live Video Streaming </h1> 
-    <img src="{{ url_for('video_feed') }}"> 
-    <button @click="move('forward')">Forward</button>
-    <button @click="move('backward')">Backward</button>
+    <div class="header">
+      <h1> Pi Car Remote </h1> 
+    </div>
+    <div class="content">
+      <img src="{{ url_for('video_feed') }}"> 
+      <div class="grid">
+        <div></div>
+        <div class="pure-button pure-button-primary" @click="move('forward')">Forward</div>
+        <div></div>
+        <div class="pure-button pure-button-primary" @click="move('left')">Left</div>
+        <div class="pure-button" @click="move('stop')">Stop</div>
+        <div class="pure-button pure-button-primary" @click="move('right')">Right</div>
+        <div></div>
+        <div class="pure-button pure-button-primary" @click="move('backward')">Backward</div>
+        <div></div>  
+      </div>
+    </div>
   </div>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
  </body> 
