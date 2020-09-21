@@ -31,11 +31,14 @@ def video_feed():
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
-@app.route('/forward', methods=['POST'])
-def forward():
-    print("Moving forward")
-    motor.t_up(20,3)
+@app.route('/motor/<direction>')
+@app.route('/motor/<direction>/<speed>')
+def move(direction, speed=20):
+    print("Motor Signaled")
+    if direction == "forward":
+        motor.t_up(speed,3)
+    if direction == "backward":
+        motor.t_down(speed,3)
     motor.t_stop(1)
     return "done"
 
