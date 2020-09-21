@@ -1,10 +1,12 @@
 # https://www.hackster.io/ruchir1674/video-streaming-on-flask-server-using-rpi-ef3d75
 
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, redirect
 import picamera
 import cv2
 import socket
 import io
+
+import motor 
 
 app = Flask(__name__)
 vc = cv2.VideoCapture(0)
@@ -30,6 +32,15 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/forward', methods=['POST'])
+def forward():
+    print("Moving forward")
+    motor.t_up(20,3)
+    motor.t_stop(1)
+    return "done"
+
+
 if __name__ == '__main__':
+        motor.setup_gpio()
         app.run(host='0.0.0.0', threaded=True)
                

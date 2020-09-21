@@ -108,20 +108,22 @@ def setup():
 def destroy():
 	GPIO.cleanup()	
 
-if __name__ == '__main__':
+def setup_gpio():
         setup()
+        global L_Motor, R_Motor
         L_Motor= GPIO.PWM(PWMA,100)
         L_Motor.start(0)
         R_Motor = GPIO.PWM(PWMB,100)
         R_Motor.start(0)
         print("motor ready.")
         buzz()
-        keysacn()
-        try:
-                t_up(30,2)
-        except KeyboardInterrupt:
-                GPIO.cleanup()
+        # keysacn()
+        # try:
+        #         t_up(30,2)
+        # except KeyboardInterrupt:
+        #         GPIO.cleanup()
 
 
-    
+if __name__ == '__main__':
+        setup_gpio()
 
