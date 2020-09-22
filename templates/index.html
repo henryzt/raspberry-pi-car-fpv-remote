@@ -3,6 +3,7 @@
     <title>Pi Car Remote</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/nipplejs@0.8.7/dist/nipplejs.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
  </head> 
@@ -12,17 +13,29 @@
       <h1> Pi Car Remote </h1> 
     </div>
     <div class="content">
-      <img src="{{ url_for('video_feed') }}"> 
-      <div class="grid" @mousedown="handleMove" @touchstart="handleMove" @mouseup="stop" @touchend="stop">
-        <div></div>
-        <div class="pure-button pure-button-primary" data-action="forward">Forward</div>
-        <div></div>
-        <div class="pure-button pure-button-primary" data-action="left">Left</div>
-        <div class="pure-button" data-action="stop">Stop</div>
-        <div class="pure-button pure-button-primary" data-action="right">Right</div>
-        <div></div>
-        <div class="pure-button pure-button-primary" data-action="backward">Backward</div>
-        <div class="pure-button" data-action="buzz">Buzz</div> 
+      <img class="fpv" src="{{ url_for('video_feed') }}"> 
+      <!-- joysticks -->
+      <div v-if="control=='joy'" class="joys">
+        <div class="joy left" ref="leftJoy">
+          <div class="text">Gimbal Control</div>
+        </div>
+        <div class="joy right" ref="rightJoy">
+          <div class="text">Car Control</div>
+        </div>
+      </div>
+      <!-- buttons -->
+      <div v-else-if="control=='button'">
+        <div class="grid" @mousedown="handleMove" @touchstart="handleMove" @mouseup="stop" @touchend="stop">
+          <div></div>
+          <div class="pure-button pure-button-primary" data-action="forward">Forward</div>
+          <div></div>
+          <div class="pure-button pure-button-primary" data-action="left">Left</div>
+          <div class="pure-button" data-action="stop">Stop</div>
+          <div class="pure-button pure-button-primary" data-action="right">Right</div>
+          <div></div>
+          <div class="pure-button pure-button-primary" data-action="backward">Backward</div>
+          <div class="pure-button" data-action="buzz">Buzz</div> 
+        </div>
       </div>
     </div>
   </div>

@@ -27,3 +27,47 @@
 .content img{
   width: 100%;
 }
+
+.joys {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.joys .joy {
+  position: absolute;
+  top:0;
+  height: 100%;
+  width: 50%;
+}
+
+.joys .left {
+  left: 0;
+  background: rgb(255, 219, 219);
+}
+
+.joys .right {
+  right: 0;
+  background: rgb(219, 232, 255);
+}
+
+.joys .joy .text {
+  position: absolute;
+  top:0;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  color: black;
+  opacity: 0.5;
+}
+
+.fpv{
+  max-height: 300px;
+}
+
+@media only screen and (min-width: 800px) {
+  /* desktop */
+  .fpv{
+    max-height: 600px;
+  }
+}
