@@ -98,7 +98,7 @@ def keysacn():
             GPIO.output(Rpin, 0)
 
 
-def setup():
+def setup_gpio():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(AIN2, GPIO.OUT)
@@ -123,8 +123,8 @@ def destroy():
     GPIO.cleanup()
 
 
-def setup_gpio():
-    setup()
+def setup():
+    setup_gpio()
     global L_Motor, R_Motor
     L_Motor = GPIO.PWM(PWMA, 100)
     L_Motor.start(0)
