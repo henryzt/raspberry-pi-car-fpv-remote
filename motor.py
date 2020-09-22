@@ -19,6 +19,12 @@ buzzer = 17
 
 blocking = 0
 
+motor_status = "stop"
+
+def change_status(status):
+    global motor_status
+    motor_status = status
+    
 
 def t_up(speed, t_time):
     L_Motor.ChangeDutyCycle(speed)
@@ -28,6 +34,8 @@ def t_up(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, True)  # BIN1
+    global motor_status
+    change_status("up")
     time.sleep(t_time)
 
 
@@ -39,6 +47,7 @@ def t_stop(t_time):
     R_Motor.ChangeDutyCycle(0)
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
+    change_status("stop")
     time.sleep(t_time)
 
 
@@ -50,6 +59,7 @@ def t_down(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, True)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
+    change_status("down")
     time.sleep(t_time)
 
 
@@ -61,6 +71,7 @@ def t_left(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, True)  # BIN1
+    change_status("left")
     time.sleep(t_time)
 
 
@@ -72,11 +83,11 @@ def t_right(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, True)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
+    change_status("right")
     time.sleep(t_time)
 
 
 def buzz():
-    Buzz = GPIO.PWM(buzzer, 440)
     Buzz.start(50)
     Buzz.ChangeFrequency(2000)
     time.sleep(0.5)
@@ -117,6 +128,9 @@ def setup_gpio():
     GPIO.setup(BtnPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     # Buzzer Pin
     GPIO.setup(buzzer, GPIO.OUT)
+    # global buzzer
+    global Buzz
+    Buzz = GPIO.PWM(buzzer, 440)
 
 
 def destroy():

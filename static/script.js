@@ -45,10 +45,7 @@ const app = new Vue({
       if(dir != this.lastDir || speed != this.lastSpeed){
         this.lastDir = dir;
         this.lastSpeed = speed;
-        let direction = dir;
-        if(direction == "up") direction = "forward";
-        else if(direction == "down") direction = "backward";
-        this.move(direction, speed)
+        this.move(dir, speed)
       }
     },
     stop(event){

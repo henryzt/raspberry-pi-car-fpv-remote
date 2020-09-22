@@ -28,13 +28,13 @@
       <div v-else-if="control=='button'">
         <div class="grid" @mousedown="handleMove" @touchstart="handleMove" @mouseup="stop" @touchend="stop">
           <div></div>
-          <div class="pure-button pure-button-primary" data-action="forward">Forward</div>
+          <div class="pure-button pure-button-primary" data-action="up">Forward</div>
           <div></div>
           <div class="pure-button pure-button-primary" data-action="left">Left</div>
           <div class="pure-button" data-action="stop">Stop</div>
           <div class="pure-button pure-button-primary" data-action="right">Right</div>
           <div></div>
-          <div class="pure-button pure-button-primary" data-action="backward">Backward</div>
+          <div class="pure-button pure-button-primary" data-action="down">Backward</div>
           <div class="pure-button" data-action="buzz">Buzz</div> 
         </div>
       </div>
