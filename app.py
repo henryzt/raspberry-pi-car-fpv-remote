@@ -50,7 +50,7 @@ def move_motor(direction, speed):
 @app.route('/motor/<direction>')
 @app.route('/motor/<direction>/<speed>')
 def move(direction, speed=35):
-    thread = threading.Thread(target=move_motor, args=(direction, speed))
+    thread = threading.Thread(target=move_motor, args=(direction, int(speed)))
     thread.start()
     return "done"
 

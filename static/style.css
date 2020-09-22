@@ -22,6 +22,12 @@
 .content {
   max-width: 800px;
   margin: auto;
+  background: #f3f3f3;
+  height: 100%;
+}
+
+body{
+  background: #f3f3f3;
 }
 
 .content img{
@@ -38,17 +44,18 @@
   position: absolute;
   top:0;
   height: 100%;
-  width: 50%;
+  width: calc(50% - 15px);
+  background: #ffffff;
+  border-radius: 20px;
+  margin: 10px;
 }
 
 .joys .left {
   left: 0;
-  background: rgb(255, 219, 219);
 }
 
 .joys .right {
   right: 0;
-  background: rgb(219, 232, 255);
 }
 
 .joys .joy .text {

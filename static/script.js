@@ -11,14 +11,14 @@ const app = new Vue({
         zone: this.$refs.leftJoy,
         mode: 'semi',
         catchDistance: 150,
-        color: 'red',
+        color: '#0077ff',
         size: 120
     });
     const car = nipplejs.create({
         zone: this.$refs.rightJoy,
         mode: 'semi',
         catchDistance: 150,
-        color: 'blue',
+        color: '#0077ff',
         size: 120
     });
 
@@ -31,8 +31,9 @@ const app = new Vue({
     });
   },
   methods: {
-    move(direction){
-      fetch('/motor/' + direction)
+    move(direction, speed){
+      const sp = speed ?? 30;
+      fetch(`/motor/${direction}/${sp}`)
     },
     handleMove(event){
       const action = event.target.dataset.action;
@@ -47,7 +48,7 @@ const app = new Vue({
         let direction = dir;
         if(direction == "up") direction = "forward";
         else if(direction == "down") direction = "backward";
-        this.move(direction)
+        this.move(direction, speed)
       }
     },
     stop(event){
