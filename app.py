@@ -35,18 +35,21 @@ def video_feed():
 def move_motor(direction, speed):
     print("Motor Signaled: " + direction)
     if direction == "forward":
-        motor.t_up(speed, 3)
-    if direction == "backward":
-        motor.t_down(speed, 3)
-    if direction == "left":
-        motor.t_left(speed * 1.5, 1)
-    if direction == "right":
-        motor.t_right(speed * 1.5, 1)
-    motor.t_stop(1)
+        motor.t_up(speed, 6)
+    elif direction == "backward":
+        motor.t_down(speed, 6)
+    elif direction == "left":
+        motor.t_left(40, 1)
+    elif direction == "right":
+        motor.t_right(40, 1)
+    elif direction == "buzz":
+        motor.buzz()
+    else:
+        motor.t_stop(1)
 
 @app.route('/motor/<direction>')
 @app.route('/motor/<direction>/<speed>')
-def move(direction, speed=20):
+def move(direction, speed=35):
     thread = threading.Thread(target=move_motor, args=(direction, speed))
     thread.start()
     return "done"

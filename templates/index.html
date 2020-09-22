@@ -13,16 +13,16 @@
     </div>
     <div class="content">
       <img src="{{ url_for('video_feed') }}"> 
-      <div class="grid">
+      <div class="grid" @mousedown="handleMove" @touchstart="handleMove" @mouseup="stop" @touchend="stop">
         <div></div>
-        <div class="pure-button pure-button-primary" @click="move('forward')">Forward</div>
+        <div class="pure-button pure-button-primary" data-action="forward">Forward</div>
         <div></div>
-        <div class="pure-button pure-button-primary" @click="move('left')">Left</div>
-        <div class="pure-button" @click="move('stop')">Stop</div>
-        <div class="pure-button pure-button-primary" @click="move('right')">Right</div>
+        <div class="pure-button pure-button-primary" data-action="left">Left</div>
+        <div class="pure-button" data-action="stop">Stop</div>
+        <div class="pure-button pure-button-primary" data-action="right">Right</div>
         <div></div>
-        <div class="pure-button pure-button-primary" @click="move('backward')">Backward</div>
-        <div></div>  
+        <div class="pure-button pure-button-primary" data-action="backward">Backward</div>
+        <div class="pure-button" data-action="buzz">Buzz</div> 
       </div>
     </div>
   </div>
