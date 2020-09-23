@@ -3,7 +3,8 @@ import threading
 import motor
 import ranging
 
-avoid_obst = True
+us_avoid = True
+ir_avoid = False
 
 # ------- motor -------
 
@@ -16,18 +17,18 @@ def move(direction, speed):
 def move_motor(direction, speed):
     print("Motor Signaled: " + direction)
     if direction == "up":
-        if not avoid_obst or (avoid_obst and range > 15):
+        if not us_avoid or (us_avoid and range > 15):
             motor.t_up(speed, 6)
         else:
             motor.buzz()
     elif direction == "left":
-        if not avoid_obst or (avoid_obst and ranging.ir_left()):
-            motor.t_left(40, 1)
+        if not ir_avoid or (ir_avoid and ranging.ir_left()):
+            motor.t_left(speed, 1)
         else:
             motor.buzz()
     elif direction == "right":
-        if not avoid_obst or (avoid_obst and ranging.ir_right()):
-            motor.t_right(40, 1)
+        if not ir_avoid or (ir_avoid and ranging.ir_right()):
+            motor.t_right(speed, 1)
         else:
             motor.buzz()
     elif direction == "down":
@@ -55,9 +56,9 @@ def get_us_range():
     range = ranging.us_distance()
     left = ranging.ir_left()
     right = ranging.ir_right()
-    if ((motor.motor_status == "up" and avoid_obst and range < 15) or
-        (motor.motor_status == "left" and not ranging.ir_left()) or
-            (motor.motor_status == "right" and not ranging.ir_right())):
+    if ((motor.motor_status == "up" and us_avoid and range < 15) or
+        (motor.motor_status == "left" and ir_avoid and not ranging.ir_left()) or
+            (motor.motor_status == "right" and ir_avoid and not ranging.ir_right())):
         motor.t_stop(1)
         motor.buzz()
     # print("US - %s, Left - %s, Right - %s" % (range, left, right))
