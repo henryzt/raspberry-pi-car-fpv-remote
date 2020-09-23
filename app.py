@@ -34,8 +34,14 @@ def video_feed():
 
 @app.route('/motor/<direction>')
 @app.route('/motor/<direction>/<speed>')
-def move(direction, speed=35):
-    car.move(direction, speed)
+def move(direction, speed=30):
+    car.move_motor(direction, speed)
+    return "done"
+
+@app.route('/gimbal/<direction>')
+@app.route('/gimbal/<direction>/<speed>')
+def gimbal(direction, speed=20):
+    car.move_gimbal(direction, int(speed) / 10)
     return "done"
 
 

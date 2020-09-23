@@ -2,6 +2,7 @@ import threading
 
 import motor
 import ranging
+import servo
 
 us_avoid = True
 ir_avoid = False
@@ -9,12 +10,12 @@ ir_avoid = False
 # ------- motor -------
 
 
-def move(direction, speed):
-    thread = threading.Thread(target=move_motor, args=(direction, int(speed)))
+def move_motor(direction, speed):
+    thread = threading.Thread(target=move_motor_thread, args=(direction, int(speed)))
     thread.start()
 
 
-def move_motor(direction, speed):
+def move_motor_thread(direction, speed):
     print("Motor Signaled: " + direction)
     if direction == "up":
         if not us_avoid or (us_avoid and range > 15):
@@ -37,6 +38,15 @@ def move_motor(direction, speed):
         motor.buzz()
     else:
         motor.t_stop(1)
+
+# ------- gimbal -------
+
+def move_gimbal(direction, speed):
+    if direction == "left" or direction == "right":
+        servo.move_cam_x(direction, speed)
+    elif direction == "up" or direction == "down":
+        pass
+
 
 # ------- ranging -------
 
@@ -70,4 +80,5 @@ def get_us_range():
 def setup():
     motor.setup()
     ranging.setup()
+    servo.reset_all()
     set_interval(get_us_range, 0.1)

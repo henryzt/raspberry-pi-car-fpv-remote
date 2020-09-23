@@ -3,8 +3,16 @@ const app = new Vue({
   delimiters: ['[[', ']]'],
   data: {
     control: "joy",
-    lastSpeed: 0,
-    lastDir: null
+    status: {
+      motor: {
+        lastSpeed: 0,
+        lastDir: null
+      },
+      gimbal: {
+        lastSpeed: 0,
+        lastDir: null
+      }
+    }
   },
   mounted(){
     const gimbal = nipplejs.create({
@@ -24,34 +32,37 @@ const app = new Vue({
 
     car.on('move', (evt, data) => {
         if(!data.direction) return;
-        this.handleJoyMove(data.direction.angle, data.distance)
+        this.handleJoyMove('motor', data.direction.angle, data.distance)
     });
     car.on('end', () => {
-        this.stop()
+        this.stop('motor')
+    });
+
+    gimbal.on('move', (evt, data) => {
+      if(!data.direction) return;
+      this.handleJoyMove('gimbal', data.direction.angle, data.distance)
+    });
+    gimbal.on('end', () => {
+        this.stop('gimbal')
     });
   },
   methods: {
-    move(direction, speed){
+    move(type, direction, speed){
       const sp = speed ?? 30;
-      fetch(`/motor/${direction}/${sp}`)
+      const t = type ?? 'motor';
+      fetch(`/${t}/${direction}/${sp}`);
     },
-    handleMove(event){
-      const action = event.target.dataset.action;
-      if(!action) return;
-      this.move(action)
-    },
-    handleJoyMove(dir, dist){
+    handleJoyMove(joyName, dir, dist){
       const speed = Math.floor(dist / 10) * 10;
-      if(dir != this.lastDir || speed != this.lastSpeed){
-        this.lastDir = dir;
-        this.lastSpeed = speed;
-        this.move(dir, speed)
+      if(dir != this.status[joyName].lastDir || 
+          speed != this.status[joyName].lastSpeed){
+        this.status[joyName].lastDir = dir;
+        this.status[joyName].lastSpeed = speed;
+        this.move(joyName, dir, speed)
       }
     },
-    stop(event){
-      if(!event || event.target.dataset.action != "buzz"){
-        this.move("stop")
-      }
+    stop(type){
+      this.move(type, "stop")
     }
   }
 })
