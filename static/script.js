@@ -1,3 +1,5 @@
+const socket = io();
+
 const app = new Vue({
   el: '#app',
   delimiters: ['[[', ']]'],
@@ -15,6 +17,7 @@ const app = new Vue({
     }
   },
   mounted(){
+    // setup joysticks
     const gimbal = nipplejs.create({
         zone: this.$refs.leftJoy,
         mode: 'semi',
@@ -45,12 +48,18 @@ const app = new Vue({
     gimbal.on('end', () => {
         this.stop('gimbal')
     });
+
+    // setup socket
+    socket.on('connect', function() {
+      console.log("Socket connected")
+      socket.emit('connected', {agent: navigator.userAgent});
+    });
   },
   methods: {
     move(type, direction, speed){
       const sp = speed ?? 30;
       const t = type ?? 'motor';
-      fetch(`/${t}/${direction}/${sp}`);
+      socket.emit(t, {direction, speed: sp});
     },
     handleJoyMove(joyName, dir, dist){
       const speed = Math.floor(dist / 10) * 10;
@@ -74,8 +83,7 @@ const app = new Vue({
       this.move("gimbal", "recenter")
     },
     autopilot(){
-      fetch(`/autopilot`);
+      socket.emit("autopilot", {action: 'toggle'});
     }
   }
 })
-console.log("OK")

@@ -6,12 +6,12 @@ import servo
 import autopilot
 
 us_avoid = True
-ir_avoid = False
+ir_avoid = True
 
 # ------- motor -------
 
 
-def move_motor(direction, speed):
+def move_motor(direction, speed=30):
     thread = threading.Thread(target=move_motor_thread, args=(direction, int(speed)))
     thread.start()
 
@@ -45,7 +45,7 @@ def move_motor_thread(direction, speed):
 
 # ------- gimbal -------
 
-def move_gimbal(direction, speed):
+def move_gimbal(direction, speed=20):
     servo.move_gimbal(direction, int(speed) / 200)
 
 # ------- ranging -------

@@ -1,6 +1,7 @@
 # https://www.hackster.io/ruchir1674/video-streaming-on-flask-server-using-rpi-ef3d75
 
 from flask import Flask, render_template, Response, redirect
+from flask_socketio import SocketIO
 import picamera
 import cv2
 import socket
@@ -9,6 +10,8 @@ import io
 import car
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
 vc = cv2.VideoCapture(0)
 
 
@@ -32,24 +35,23 @@ def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/motor/<direction>')
-@app.route('/motor/<direction>/<speed>')
-def move(direction, speed=30):
-    car.move_motor(direction, speed)
-    return "done"
+@socketio.on('connected')
+def handle_connected(message):
+    print("client connected", message)
 
-@app.route('/gimbal/<direction>')
-@app.route('/gimbal/<direction>/<speed>')
-def gimbal(direction, speed=20):
-    car.move_gimbal(direction, speed)
-    return "done"
+@socketio.on('motor')
+def move(json):
+    car.move_motor(json['direction'], json['speed'])
 
-@app.route('/autopilot')
-def autopilot():
+@socketio.on('gimbal')
+def gimbal(json):
+    car.move_gimbal(json['direction'], json['speed'])
+
+@socketio.on('autopilot')
+def autopilot(json):
     car.toggle_autopilot()
-    return "done"
 
 
 if __name__ == '__main__':
     car.setup()
-    app.run(host='0.0.0.0', debug=False, threaded=True)
+    socketio.run(app, host='0.0.0.0')
