@@ -42,11 +42,7 @@ def move_motor_thread(direction, speed):
 # ------- gimbal -------
 
 def move_gimbal(direction, speed):
-    if direction == "left" or direction == "right":
-        servo.move_cam_x(direction, speed)
-    elif direction == "up" or direction == "down":
-        pass
-
+    servo.move_gimbal(direction, speed)
 
 # ------- ranging -------
 
@@ -57,6 +53,7 @@ def set_interval(func, sec):
         set_interval(func, sec)
         func()
     t = threading.Timer(sec, func_wrapper)
+    t.daemon = True
     t.start()
     return t
 
