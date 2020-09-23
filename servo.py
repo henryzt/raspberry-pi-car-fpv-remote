@@ -79,13 +79,12 @@ class MoveGimbalServo:
     def run(self, direction, speed):
         movable = True
         while self._running and movable:
-            print("called")
             movable = move_gimbal_thread(direction, speed)
-        print("terminated")
+        print("gimbal terminated")
 
 
 def move_gimbal_thread(direction, speed):
-    print("Gimbal Signaled: " + direction, speed)
+    # print("Gimbal Signaled: " + direction, speed)
     if direction == "left" or direction == "right":
         return move_cam_x(direction, speed)
     elif direction == "up" or direction == "down":

@@ -21,9 +21,9 @@ def gen():
     # Video streaming generator function.
     while True:
         rval, frame = vc.read()
-        cv2.imwrite('t.jpg', frame)
+        ret, jpeg = cv2.imencode('.jpg', frame)
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
 
 
 @app.route('/video_feed')
