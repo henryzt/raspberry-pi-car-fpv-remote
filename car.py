@@ -37,6 +37,9 @@ def move_motor_thread(direction, speed):
         motor.t_down(speed, 6)
     elif direction == "buzz":
         motor.buzz()
+    elif direction == "brake":
+        motor.t_stop(5)
+        autopilot.stop()
     else:
         motor.t_stop(1)
 
