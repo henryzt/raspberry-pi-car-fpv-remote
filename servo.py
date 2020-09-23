@@ -1,6 +1,7 @@
 from adafruit_servokit import ServoKit
 import time
 import threading
+import ranging
 
 kit = ServoKit(channels=16)
 
@@ -16,6 +17,24 @@ cam_x_deg = 90
 
 def center_us():
     servo_us.angle = 90
+
+def front_detection():
+        servo_us.angle = 90
+        time.sleep(0.5)
+        dis_f = ranging.us_distance()
+        return dis_f
+
+def left_detection():
+         servo_us.angle = 175
+         time.sleep(0.5)
+         dis_l = ranging.us_distance()
+         return dis_l
+        
+def right_detection():
+        servo_us.angle = 5
+        time.sleep(0.5)
+        dis_r = ranging.us_distance()
+        return dis_r
 
 # ------- gimbal -------
 

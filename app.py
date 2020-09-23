@@ -44,6 +44,11 @@ def gimbal(direction, speed=20):
     car.move_gimbal(direction, speed)
     return "done"
 
+@app.route('/autopilot')
+def autopilot():
+    car.toggle_autopilot()
+    return "done"
+
 
 if __name__ == '__main__':
     car.setup()

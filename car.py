@@ -3,6 +3,7 @@ import threading
 import motor
 import ranging
 import servo
+import autopilot
 
 us_avoid = True
 ir_avoid = False
@@ -70,6 +71,15 @@ def get_us_range():
         motor.buzz()
     # print("US - %s, Left - %s, Right - %s" % (range, left, right))
     return range
+
+
+# ------- autopilot -------
+
+def toggle_autopilot():
+    if autopilot.autopilot:
+        autopilot.stop()
+    else:
+        autopilot.start()
 
 
 # ------- setup -------

@@ -69,6 +69,9 @@ const app = new Vue({
     },
     recenter(){
       this.move("gimbal", "recenter")
+    },
+    autopilot(){
+      fetch(`/autopilot`);
     }
   }
 })
