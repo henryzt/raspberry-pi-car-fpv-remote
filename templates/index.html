@@ -16,7 +16,7 @@
       <!-- visual -->
       <img class="fpv" src="{{ url_for('video_feed') }}"> 
       <!-- joysticks -->
-      <div v-if="control=='joy'" class="joys">
+      <div class="joys">
         <div class="joy left" ref="leftJoy">
           <div class="text">Gimbal Control</div>
         </div>
@@ -25,18 +25,11 @@
         </div>
       </div>
       <!-- buttons -->
-      <div v-else-if="control=='button'">
-        <div class="grid" @mousedown="handleMove" @touchstart="handleMove" @mouseup="stop" @touchend="stop">
-          <div></div>
-          <div class="pure-button pure-button-primary" data-action="up">Forward</div>
-          <div></div>
-          <div class="pure-button pure-button-primary" data-action="left">Left</div>
-          <div class="pure-button" data-action="stop">Stop</div>
-          <div class="pure-button pure-button-primary" data-action="right">Right</div>
-          <div></div>
-          <div class="pure-button pure-button-primary" data-action="down">Backward</div>
-          <div class="pure-button" data-action="buzz">Buzz</div> 
-        </div>
+      <div class="buttons">
+        <div class="pure-button pure-button-primary" @click="stop('motor')">Brake</div>
+        <div class="pure-button pure-button-primary" @click="recenter">Recenter</div>
+        <div class="pure-button pure-button-primary" @click="buzz">Locate</div>
+        <div class="pure-button pure-button-primary" data-action="up">Autopilot</div>
       </div>
     </div>
   </div>

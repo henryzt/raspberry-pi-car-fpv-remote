@@ -30,8 +30,8 @@ def reset_cam():
 
 def move_cam_x(direction, speed):
     global cam_x_deg
-    delta = speed if direction == "right" else -speed
-    new_deg = cam_x_deg + delta / 30
+    delta = speed if direction == "left" else -speed
+    new_deg = cam_x_deg + delta
     if 0 <= new_deg <= 180:
         cam_x_deg = new_deg
         servo_cam_x.angle = cam_x_deg
@@ -42,8 +42,8 @@ def move_cam_x(direction, speed):
 def move_cam_y(direction, speed):
     global cam_y_deg
     delta = speed if direction == "up" else -speed
-    new_deg = cam_y_deg + delta / 30
-    if 0 <= new_deg <= 180:
+    new_deg = cam_y_deg + delta
+    if 0 <= new_deg <= 90:
         cam_y_deg = new_deg
         servo_cam_y.angle = cam_y_deg
         return True
@@ -60,15 +60,20 @@ class MoveGimbalServo:
     def run(self, direction, speed):
         movable = True
         while self._running and movable:
+            print("called")
             movable = move_gimbal_thread(direction, speed)
         print("terminated")
 
 
 def move_gimbal_thread(direction, speed):
+    print("Gimbal Signaled: " + direction, speed)
     if direction == "left" or direction == "right":
         return move_cam_x(direction, speed)
     elif direction == "up" or direction == "down":
         return move_cam_y(direction, speed)
+    elif direction == "recenter":
+        reset_cam()
+        return False
     else:
         return False
 

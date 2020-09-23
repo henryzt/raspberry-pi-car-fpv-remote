@@ -16,7 +16,7 @@ def move_motor(direction, speed):
 
 
 def move_motor_thread(direction, speed):
-    print("Motor Signaled: " + direction)
+    print("Motor Signaled: " + direction, speed)
     if direction == "up":
         if not us_avoid or (us_avoid and range > 15):
             motor.t_up(speed, 6)
@@ -42,7 +42,7 @@ def move_motor_thread(direction, speed):
 # ------- gimbal -------
 
 def move_gimbal(direction, speed):
-    servo.move_gimbal(direction, speed)
+    servo.move_gimbal(direction, int(speed) / 200)
 
 # ------- ranging -------
 

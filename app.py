@@ -41,7 +41,7 @@ def move(direction, speed=30):
 @app.route('/gimbal/<direction>')
 @app.route('/gimbal/<direction>/<speed>')
 def gimbal(direction, speed=20):
-    car.move_gimbal(direction, int(speed) / 10)
+    car.move_gimbal(direction, speed)
     return "done"
 
 

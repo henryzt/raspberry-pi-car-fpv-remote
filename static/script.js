@@ -63,6 +63,12 @@ const app = new Vue({
     },
     stop(type){
       this.move(type, "stop")
+    },
+    buzz(){
+      this.move("motor", "buzz")
+    },
+    recenter(){
+      this.move("gimbal", "recenter")
     }
   }
 })
