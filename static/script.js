@@ -68,6 +68,10 @@ const app = new Vue({
     socket.on('motor_status', (json) => {
       console.log(json)
     });
+    
+    socket.on('gimbal_status', (json) => {
+      console.log(json)
+    });
   },
   methods: {
     move(type, direction, speed){

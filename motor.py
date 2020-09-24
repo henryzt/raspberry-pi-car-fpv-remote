@@ -2,6 +2,7 @@
 
 import time
 import RPi.GPIO as GPIO
+from connect import socket_emit
 
 PWMA = 18
 AIN1 = 22
@@ -20,10 +21,13 @@ buzzer = 17
 blocking = 0
 
 motor_status = "stop"
+motor_speed = 0
 
-def change_status(status):
-    global motor_status
+def change_status(status, speed):
+    global motor_status, motor_speed
     motor_status = status
+    motor_speed = speed
+    socket_emit("motor_status", {"status": motor_status, "speed": motor_speed})
     
 
 def t_up(speed, t_time):
@@ -35,7 +39,7 @@ def t_up(speed, t_time):
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, True)  # BIN1
     global motor_status
-    change_status("up")
+    change_status("up", speed)
     time.sleep(t_time)
 
 
@@ -47,7 +51,7 @@ def t_stop(t_time):
     R_Motor.ChangeDutyCycle(0)
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
-    change_status("stop")
+    change_status("stop", 0)
     time.sleep(t_time)
 
 
@@ -59,7 +63,7 @@ def t_down(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, True)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
-    change_status("down")
+    change_status("down", speed)
     time.sleep(t_time)
 
 
@@ -71,7 +75,7 @@ def t_left(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, False)  # BIN2
     GPIO.output(BIN1, True)  # BIN1
-    change_status("left")
+    change_status("left", speed)
     time.sleep(t_time)
 
 
@@ -83,7 +87,7 @@ def t_right(speed, t_time):
     R_Motor.ChangeDutyCycle(speed)
     GPIO.output(BIN2, True)  # BIN2
     GPIO.output(BIN1, False)  # BIN1
-    change_status("right")
+    change_status("right", speed)
     time.sleep(t_time)
 
 

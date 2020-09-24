@@ -1,4 +1,5 @@
 from adafruit_servokit import ServoKit
+from connect import socket_emit
 import time
 import threading
 import ranging
@@ -81,6 +82,7 @@ class MoveGimbalServo:
         while self._running and movable:
             movable = move_gimbal_thread(direction, speed)
         print("gimbal terminated")
+        socket_emit("gimbal_status", {"x": servo_cam_x.angle, "y": servo_cam_y.angle})
 
 
 def move_gimbal_thread(direction, speed):
@@ -99,6 +101,7 @@ def move_gimbal_thread(direction, speed):
 gimbal_task = None
 
 def move_gimbal(direction, speed):
+    print("called", direction, speed)
     global gimbal_task
     if gimbal_task:
         gimbal_task.terminate()

@@ -7,13 +7,11 @@ import cv2
 import socket
 import io
 
-import car
-
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 vc = cv2.VideoCapture(0)
 
+import car
 
 @app.route('/')
 def index():
