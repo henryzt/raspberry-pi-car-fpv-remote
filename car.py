@@ -5,8 +5,10 @@ import ranging
 import servo
 import autopilot
 
+from connect import socket_emit
+
 us_avoid = True
-ir_avoid = True
+ir_avoid = False
 
 # ------- motor -------
 
@@ -22,17 +24,17 @@ def move_motor_thread(direction, speed):
         if not us_avoid or (us_avoid and range > 15):
             motor.t_up(speed, 6)
         else:
-            motor.buzz()
+            report_obstacle(direction, range)
     elif direction == "left":
         if not ir_avoid or (ir_avoid and ranging.ir_left()):
             motor.t_left(speed, 1)
         else:
-            motor.buzz()
+            report_obstacle(direction, range)
     elif direction == "right":
         if not ir_avoid or (ir_avoid and ranging.ir_right()):
             motor.t_right(speed, 1)
         else:
-            motor.buzz()
+            report_obstacle(direction, range)
     elif direction == "down":
         motor.t_down(speed, 6)
     elif direction == "buzz":
@@ -70,8 +72,8 @@ def get_us_range():
     if ((motor.motor_status == "up" and us_avoid and range < 15) or
         (motor.motor_status == "left" and ir_avoid and not ranging.ir_left()) or
             (motor.motor_status == "right" and ir_avoid and not ranging.ir_right())):
+        report_obstacle(motor.motor_status, range)
         motor.t_stop(1)
-        motor.buzz()
     # print("US - %s, Left - %s, Right - %s" % (range, left, right))
     return range
 
@@ -84,6 +86,9 @@ def toggle_autopilot():
     else:
         autopilot.start()
 
+def report_obstacle(direction, range):
+    socket_emit("obstacle", {"direction": direction, "range": range })
+    motor.buzz()
 
 # ------- setup -------
 

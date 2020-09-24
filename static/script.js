@@ -13,6 +13,7 @@ const app = new Vue({
         lastDir: null
       },
       gimbal: {
+        timeout: null,
         lastSpeed: 0,
         lastDir: null
       }
@@ -45,7 +46,10 @@ const app = new Vue({
 
     gimbal.on('move', (evt, data) => {
       if(!data.direction) return;
-      this.handleJoyMove('gimbal', data.direction.angle, data.distance)
+      clearTimeout(this.status.gimbal.timeout)
+      this.status.gimbal.timeout = setTimeout(()=>{
+        this.handleJoyMove('gimbal', data.direction.angle, data.distance)
+      }, 50)
     });
     gimbal.on('end', () => {
         this.stop('gimbal')
@@ -70,6 +74,10 @@ const app = new Vue({
     });
     
     socket.on('gimbal_status', (json) => {
+      console.log(json)
+    });
+
+    socket.on('obstacle', (json) => {
       console.log(json)
     });
   },

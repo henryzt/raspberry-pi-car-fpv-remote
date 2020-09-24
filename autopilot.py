@@ -3,6 +3,8 @@ import motor
 import ranging
 import threading
 
+from connect import socket_emit
+
 autopilot = None
 
 
@@ -17,6 +19,7 @@ class AutopilotTask:
         while self._running:
             dis1 = servo.front_detection()
             if (dis1 < 40) == True:
+                socket_emit("obstacle", {"direction": "up", "range": dis1 })
                 us_avoid()
             else:
                 ir_avoid()
