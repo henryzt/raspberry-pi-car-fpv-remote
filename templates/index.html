@@ -33,6 +33,10 @@
         <div class="pure-button pure-button-primary" @click="autopilot">Autopilot</div>
       </div>
     </div>
+
+    <div class="connecting" v-if="!connected">
+      Connecting...
+    </div>
   </div>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
  </body> 

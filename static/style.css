@@ -46,6 +46,18 @@ body{
   border-radius: 0;
 }
 
+.connecting {
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  line-height: 100vh;
+  font-size: x-large;
+}
+
 .joys {
   position: relative;
   width: 100%;

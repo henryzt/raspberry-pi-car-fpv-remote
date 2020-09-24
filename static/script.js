@@ -5,6 +5,8 @@ const app = new Vue({
   delimiters: ['[[', ']]'],
   data: {
     control: "joy",
+    connected: false,
+    requireRefreash: false,
     status: {
       motor: {
         lastSpeed: 0,
@@ -50,9 +52,21 @@ const app = new Vue({
     });
 
     // setup socket
-    socket.on('connect', function() {
+    socket.on('connect', () => {
       console.log("Socket connected")
       socket.emit('connected', {agent: navigator.userAgent});
+      this.connected = true
+      if(this.requireRefreash) window.location.reload();
+    });
+
+    socket.on('disconnect', () => {
+      console.log("Socket disconnected")
+      this.connected = false
+      this.requireRefreash = true
+    });
+
+    socket.on('motor_status', (json) => {
+      console.log(json)
     });
   },
   methods: {
